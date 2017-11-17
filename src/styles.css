@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~https://fonts.googleapis.com/icon?family=Material+Icons';
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+	margin: 0px
+}
+
+agm-map {
+	height: 90vh;
+}
+
+.box-shadow {
+	-webkit-box-shadow: 0 8px 6px -6px black;
+	-moz-box-shadow: 0 8px 6px -6px black;
+	box-shadow: 0 8px 6px -6px black;
+	margin-bottom: 4px !important;
+}
