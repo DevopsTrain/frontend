@@ -199,22 +199,19 @@
       }
     },
     {
-      "apiVersion": "extensions/v1beta1",
+      "apiVersion": "autoscaling/v1",
       "kind": "HorizontalPodAutoscaler",
       "metadata": {
-        "name": "${NAME}",
-        "labels": {
-          "app": "${NAME}"
-        }
+        "name": "${NAME}"
       },
       "spec": {
-        "scaleRef": {
+        "scaleTargetRef": {
           "kind": "DeploymentConfig",
           "name": "${NAME}",
-          "apiVersion": "extensions/v1beta1",
+          "apiVersion": "apps/v1beta1",
           "subresource": "scale"
         },
-        "minReplicas": 2,
+        "minReplicas": 1,
         "maxReplicas": 6
       }
     }
@@ -225,14 +222,14 @@
       "displayName": "Name",
       "name": "NAME",
       "required": true,
-      "value": "angular-scaffold"
+      "value": "devops-showcase-ui"
     },
     {
       "description": "The namespace where to get the above image name",
       "displayName": "Image Namespace",
       "name": "IMAGE_NAMESPACE",
       "required": true,
-      "value": "gcpe-mygovbc-demo"
+      "value": "playground"
     },
     {
       "description": "OpenShift cluster private IP range in CIDR notation, used by Nginx ngx_http_realip_module.",
@@ -256,32 +253,13 @@
       "description": "The exposed hostname that will route to the service, e.g., myappname.pathfinder.gov.bc.ca, if left blank a value will be defaulted.",
       "displayName": "Application Hostname",
       "name": "APPLICATION_DOMAIN",
-      "value": "angular-scaffold-demo.pathfinder.gov.bc.ca"
+      "value": "devops-showcase-ui.172.17.178.234.nip.io"
     },
     {
       "description": "The TAG name for this environment, e.g., dev, test, prod",
       "displayName": "Env TAG name",
       "name": "TAG_NAME",
-      "value": "dev"
-    },
-    {
-      "description": "For very simple HTTP Basic authentication, use %HTTP_BASIC% in your nginx config and provide the value here that you want in nginx config, e.g., auth_basic 'restricted';",
-      "displayName": "HTTP Basic Nginx Config Line",
-      "name": "HTTP_BASIC",
-      "value": ""
-    },
-    {
-      "description": "For very simple HTTP Basic authentication, the username of the ONE user",
-      "displayName": "HTTP Basic Username",
-      "name": "HTTP_BASIC_USERNAME",
-      "value": ""
-    },
-    {
-      "description": "For very simple HTTP Basic authentication, the password of the ONE user",
-      "displayName": "HTTP Basic Password",
-      "name": "HTTP_BASIC_PASSWORD",
-      "value": ""
+      "value": "latest"
     }
-
   ]
 }
