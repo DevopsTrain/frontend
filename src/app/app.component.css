@@ -1,7 +1,24 @@
 .example-icon {
-  padding: 0 14px;
+	padding: 0 14px;
 }
 
 .example-spacer {
-  flex: 1 1 auto;
+	flex: 1 1 auto;
+}
+
+.sidenavContentHeader {
+	margin: 15px 0 0 15px;
+	text-align: left;
+}
+
+.batteryOk {
+	color: green;
+}
+
+.batteryWarning {
+	color: orange;
+}
+
+.batteryCritical {
+	color: red;
 }

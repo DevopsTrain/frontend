@@ -1,17 +1,34 @@
 <mat-toolbar class="box-shadow" id="box" color="primary">
-<mat-toolbar-row> <mat-icon class="example-icon">favorite</mat-icon>
-<span>DevOps - Showcase</span> <span class="example-spacer"></span>
+<mat-toolbar-row> <mat-icon class="example-icon">directions_car</mat-icon>
+<span>{{title}}</span> <span class="example-spacer"></span>
 <button (click)="sidenav.toggle()" mat-icon-button>
 	<mat-icon>menu</mat-icon>
 </button>
 </mat-toolbar-row> </mat-toolbar>
 
-<mat-sidenav-container>
-<mat-sidenav #sidenav mode="over" position='end'>
-    <!-- sidenav content -->
-  </mat-sidenav>
+<mat-sidenav-container> <mat-sidenav #sidenav
+	mode="over" position='end'> <!-- sidenav content --> <mat-selection-list
+	#selList>
+<h2 mat-subheader>My Cars</h2>
+
+<mat-divider></mat-divider> <mat-list-option (click)="getCarData(car)"
+	*ngFor="let car of cars">
+<h4 mat-line>{{car.name}}</h4>
+</mat-list-option> </mat-selection-list> </mat-sidenav>
 <div>
-	<agm-map [zoom]="zoom" [latitude]="lat" [longitude]="lng"> <agm-marker
-		[label]="label" [latitude]="lat" [longitude]="lng"></agm-marker> </agm-map>
+	<agm-map [fitBounds]="latlngBounds" [maxZoom]="18" [zoom]="zoom"
+		[latitude]="lat" [longitude]="lng"> <agm-marker
+		[label]="label" [latitude]="location.latitude"
+		[longitude]="location.longitude"></agm-marker> <agm-marker
+		*ngFor="let car of selectedCars" [label]="car.name"
+		[latitude]="car.location.latitude"
+		[longitude]="car.location.longitude"> <agm-info-window>
+	<h3>{{car.name}}</h3>
+	<p
+		[ngClass]="{'batteryOk': car.batteryStatus.status>=0.7, 'batteryWarning': car.batteryStatus.status<0.7 && car.batteryStatus.status>0.2,'batteryCritical': car.batteryStatus.status<=0.2}">Battery:
+		{{car.batteryStatus.status | battery}}</p>
+	<p>Latitude: {{car.location.latitude}}</p>
+	<p>Longitude: {{car.location.longitude}}</p>
+	</agm-info-window> </agm-marker> </agm-map>
 </div>
 </mat-sidenav-container>
