@@ -20,7 +20,7 @@
         "name": "${NAME}"
       },
       "spec": {
-        "replicas": 2,
+        "replicas": 1,
         "selector": {
           "app": "${NAME}",
           "deploymentconfig": "${NAME}"
@@ -196,23 +196,6 @@
           "name": "${NAME}",
           "weight": 100
         }
-      }
-    },
-    {
-      "apiVersion": "autoscaling/v1",
-      "kind": "HorizontalPodAutoscaler",
-      "metadata": {
-        "name": "${NAME}"
-      },
-      "spec": {
-        "scaleTargetRef": {
-          "kind": "DeploymentConfig",
-          "name": "${NAME}",
-          "apiVersion": "apps/v1beta1",
-          "subresource": "scale"
-        },
-        "minReplicas": 1,
-        "maxReplicas": 6
       }
     }
   ],
