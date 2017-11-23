@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="box-shadow" id="box">
-<mat-toolbar-row><mat-icon class="example-icon">directions_car</mat-icon>
+<mat-toolbar-row> <mat-icon class="example-icon">directions_car</mat-icon>
 <span>{{title}}</span> <span class="example-spacer"></span>
 <button (click)="sidenav.toggle()" mat-icon-button>
 	<mat-icon>menu</mat-icon>
@@ -17,8 +17,8 @@
 </mat-list-option> </mat-selection-list> </mat-sidenav>
 <div>
 	<agm-map [fitBounds]="latlngBounds" [maxZoom]="18" [zoom]="zoom"
-		[latitude]="lat" [longitude]="lng"> <agm-marker
-		[label]="label" [latitude]="location.latitude"
+		[latitude]="lat" [longitude]="lng">
+	<agm-marker [label]="label" [latitude]="location.latitude"
 		[longitude]="location.longitude"></agm-marker> <agm-marker
 		*ngFor="let car of selectedCars" [label]="car.name"
 		[latitude]="car.location.latitude"

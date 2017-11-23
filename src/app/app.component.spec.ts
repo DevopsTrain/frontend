@@ -12,11 +12,13 @@ import {MatListModule} from '@angular/material/list';
 import {AgmCoreModule} from '@agm/core';
 import {HttpModule} from '@angular/http';
 import {CoreService} from './services/core/core.service';
+import {BatteryPipe} from './pipes/battery.pipe';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        BatteryPipe
       ],
       imports: [
         BrowserModule,
@@ -42,11 +44,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('DevOps - Showcase');
-  }));
-  it('should render title in a span tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('span').textContent).toContain('DevOps - Showcase');
   }));
 });

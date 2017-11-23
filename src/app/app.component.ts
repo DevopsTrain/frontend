@@ -43,6 +43,7 @@ export class AppComponent implements OnInit {
       this.calculateCenter();
     }
     this.showDirections = false;
+    console.log(this.showDirections);
   }
 
   // Is executed by the interval check
@@ -50,6 +51,18 @@ export class AppComponent implements OnInit {
     for (const car of this.selectedCars) {
       this.calculateCarData(car, false);
     }
+  }
+
+  // Not in use
+  calcRoute(vin: string) {
+    this.origin.lat = this.location.latitude;
+    this.origin.lng = this.location.longitude;
+
+    const car = this.selectedCars.filter(data => data.vin === vin)[0];
+    this.destination.lat = car.location.latitude;
+    this.destination.lng = car.location.longitude;
+
+    this.showDirections = true;
   }
 
   // Calculates the location and battery-status of the car and updates the map
