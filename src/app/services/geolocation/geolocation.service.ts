@@ -13,6 +13,7 @@ export class GeolocationService {
   constructor(private http: Http, private coreService: CoreService) {
   }
   baseUrl: string = '../../assets/json/geolocation.json';
+  url: string = 'https://geoposition2017.azurewebsites.net/api/GeoPosition/';
   geoLocations = [];
 
   // Fetches all data from external rest service
@@ -21,6 +22,6 @@ export class GeolocationService {
   }
 
   fetchGeolocationByVin(vin: string): Observable<any> {
-    return Observable.of(this.geoLocations.filter(data => data.vin === vin)[0]);
+    return this.coreService.fetchEntity(this.url + vin);
   }
 }

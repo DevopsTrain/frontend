@@ -1,4 +1,4 @@
-import { BatteryStatus } from './models/batterystatus';
+import {BatteryStatus} from './models/batterystatus';
 import {Component, OnInit} from '@angular/core';
 import {AgmCoreModule} from '@agm/core';
 import {Car} from './models/car';
@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
   // Is executed by the interval check
   checkCarData() {
     for (const car of this.selectedCars) {
-      this.calculateCarData(car, false);
+      this.calculateCarData(car, true);
     }
   }
 
@@ -70,8 +70,9 @@ export class AppComponent implements OnInit {
     const vin = selectedCar.vin;
 
     // First fetch the location of the car
-    this.geolocationService.fetchGeolocations().subscribe(res => {
-      selectedCar.location = res[0].filter(data => data.vin === vin)[0];
+    this.geolocationService.fetchGeolocationByVin(vin).subscribe(res => {
+      // selectedCar.location = res[0].filter(data => data.vin === vin)[0];
+      selectedCar.location = new Location({latitude: res[0].latitude, longitude: res[0].longitude, vin: res[0].vin});
 
       // Then get battery-status of the car
       this.batteryService.fetchBatteryStatusByVin(vin).subscribe(resp => {
