@@ -73,8 +73,7 @@ export class AppComponent implements OnInit {
       selectedCar.location = res[0].filter(data => data.vin === vin)[0];
 
       // Then get battery-status of the car
-      this.batteryService.fetchBatteryStatusByVin(vin).subscribe(resp => {
-        console.log(resp);
+      this.batteryService.fetchBatteryStatus().subscribe(resp => {
         selectedCar.batteryStatus = resp[0].filter(data => data.vin === vin)[0];
 
         // Add to selected cars and update the center of the map
