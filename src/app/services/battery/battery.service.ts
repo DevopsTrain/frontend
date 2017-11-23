@@ -13,7 +13,7 @@ export class BatteryService {
   constructor(private http: Http, private coreService: CoreService) {
   }
   baseUrl: string = '../../assets/json/batterystatus.json';
-  url: string = 'http://batterystatus20171122094832.azurewebsites.net/api/battery/';
+  url: string = 'https://batterystatus20171122094832.azurewebsites.net/api/battery/';
   batteryStatus = [];
 
   // Fetches all data from external rest service
