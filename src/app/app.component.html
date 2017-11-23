@@ -25,7 +25,7 @@
 		[longitude]="car.location.longitude"> <agm-info-window>
 	<h3>{{car.name}}</h3>
 	<p
-		[ngClass]="{'batteryOk': car.batteryStatus.status>=0.7, 'batteryWarning': car.batteryStatus.status<0.7 && car.batteryStatus.status>0.2,'batteryCritical': car.batteryStatus.status<=0.2}">Battery:
+		[ngClass]="{'batteryOk': car.batteryStatus.status>=70, 'batteryWarning': car.batteryStatus.status<70 && car.batteryStatus.status>20,'batteryCritical': car.batteryStatus.status<=20}">Battery:
 		{{car.batteryStatus.status | battery}}</p>
 	<p>Latitude: {{car.location.latitude}}</p>
 	<p>Longitude: {{car.location.longitude}}</p>
