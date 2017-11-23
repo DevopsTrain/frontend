@@ -43,7 +43,6 @@ export class AppComponent implements OnInit {
       this.calculateCenter();
     }
     this.showDirections = false;
-    console.log(this.showDirections);
   }
 
   // Is executed by the interval check
@@ -74,7 +73,8 @@ export class AppComponent implements OnInit {
       selectedCar.location = res[0].filter(data => data.vin === vin)[0];
 
       // Then get battery-status of the car
-      this.batteryService.fetchBatteryStatus().subscribe(resp => {
+      this.batteryService.fetchBatteryStatusByVin(vin).subscribe(resp => {
+        console.log(resp);
         selectedCar.batteryStatus = resp[0].filter(data => data.vin === vin)[0];
 
         // Add to selected cars and update the center of the map

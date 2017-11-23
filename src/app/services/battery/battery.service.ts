@@ -13,6 +13,7 @@ export class BatteryService {
   constructor(private http: Http, private coreService: CoreService) {
   }
   baseUrl: string = '../../assets/json/batterystatus.json';
+  url: string = 'http://batterystatus20171122094832.azurewebsites.net/api/battery/';
   batteryStatus = [];
 
   // Fetches all data from external rest service
@@ -21,6 +22,6 @@ export class BatteryService {
   }
 
   fetchBatteryStatusByVin(vin: string): Observable<any> {
-    return Observable.of(this.batteryStatus.filter(data => data.vin === vin)[0]);
+    return this.coreService.fetchEntity(this.url + vin);
   }
 }
