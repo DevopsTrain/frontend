@@ -37,13 +37,13 @@ export class AppComponent implements OnInit {
   // Called when adding or removing a car
   getCarData(selectedCar: Car) {
     if (!this.selectedCars.includes(selectedCar)) {
+      this.showDirections = true;
       this.calculateCarData(selectedCar, true);
     } else {
       const index = this.selectedCars.indexOf(selectedCar);
       this.selectedCars.splice(index, 1);
       this.calculateCenter();
     }
-    this.showDirections = false;
   }
 
   // Is executed by the interval check
@@ -84,6 +84,7 @@ export class AppComponent implements OnInit {
 
         if (recalculate) {
           this.calculateCenter();
+          this.showDirections = false;
         }
       });
     });

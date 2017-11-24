@@ -15,10 +15,15 @@
 	*ngFor="let car of cars">
 <h4 mat-line>{{car.name}}</h4>
 </mat-list-option> </mat-selection-list> </mat-sidenav>
+
 <div>
+	<div
+		[ngClass]="[showDirections ? 'loading-indicator': 'loading-indicator-hidden']">
+		<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+	</div>
 	<agm-map [fitBounds]="latlngBounds" [maxZoom]="18" [zoom]="zoom"
-		[latitude]="lat" [longitude]="lng">
-	<agm-marker [label]="label" [latitude]="location.latitude"
+		[latitude]="lat" [longitude]="lng"> <agm-marker
+		[label]="label" [latitude]="location.latitude"
 		[longitude]="location.longitude"></agm-marker> <agm-marker
 		*ngFor="let car of selectedCars" [label]="car.name"
 		[latitude]="car.location.latitude"
