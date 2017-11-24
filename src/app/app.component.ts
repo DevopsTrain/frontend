@@ -61,8 +61,6 @@ export class AppComponent implements OnInit {
     const car = this.selectedCars.filter(data => data.vin === vin)[0];
     this.destination.lat = car.location.latitude;
     this.destination.lng = car.location.longitude;
-
-    this.showDirections = true;
   }
 
   // Calculates the location and battery-status of the car and updates the map
