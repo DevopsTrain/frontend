@@ -70,12 +70,18 @@ export class AppComponent implements OnInit {
     // First fetch the location of the car
     this.geolocationService.fetchGeolocationByVin(vin).subscribe(res => {
       // selectedCar.location = res[0].filter(data => data.vin === vin)[0];
-      selectedCar.location = new Location({latitude: res[0].latitude, longitude: res[0].longitude, vin: res[0].vin});
+      selectedCar.location = new Location({
+        latitude: res[0].latitude, longitude: res[0].longitude, vin: res[0].vin,
+        timestamp: res[0].timestampUtc
+      });
 
       // Then get battery-status of the car
       this.batteryService.fetchBatteryStatusByVin(vin).subscribe(resp => {
         // selectedCar.batteryStatus = resp[0].filter(data => data.vin === vin)[0];
-        selectedCar.batteryStatus = new BatteryStatus({status: resp[0].chargedPercentage, vin: resp[0].vin17});
+        selectedCar.batteryStatus = new BatteryStatus({
+          status: resp[0].chargedPercentage, vin: resp[0].vin17,
+          lastCheck: resp[0].lastCheck
+        });
 
         // Add to selected cars and update the center of the map
         this.selectedCars.push(selectedCar);

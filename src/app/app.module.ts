@@ -14,12 +14,14 @@ import {HttpModule} from '@angular/http';
 import {CoreService} from './services/core/core.service';
 import {BatteryPipe} from './pipes/battery.pipe';
 import {DirectionDirectivesMapDirective} from './directives/direction.directive';
+import { TimestampPipe } from './pipes/timestamp.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     BatteryPipe,
-    DirectionDirectivesMapDirective
+    DirectionDirectivesMapDirective,
+    TimestampPipe
   ],
   imports: [
     BrowserModule,

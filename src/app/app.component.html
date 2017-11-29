@@ -29,9 +29,11 @@
 		[latitude]="car.location.latitude"
 		[longitude]="car.location.longitude"> <agm-info-window>
 	<h3>{{car.name}}</h3>
+	<h5>Battery-Status ({{car.batteryStatus.lastCheck | timestamp}})</h5>
 	<p
 		[ngClass]="{'batteryOk': car.batteryStatus.status>=70, 'batteryWarning': car.batteryStatus.status<70 && car.batteryStatus.status>20,'batteryCritical': car.batteryStatus.status<=20}">Battery:
 		{{car.batteryStatus.status | battery}}</p>
+	<h5>Geolocation ({{car.location.timestamp | timestamp}})</h5>
 	<p>Latitude: {{car.location.latitude}}</p>
 	<p>Longitude: {{car.location.longitude}}</p>
 	</agm-info-window> </agm-marker> </agm-map>
