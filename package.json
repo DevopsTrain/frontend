@@ -14,13 +14,11 @@
 		"lint": "ng lint",
 		"e2e": "ng e2e",
 		"postinstall": "ng build --prod",
-		"precommit": "lint-staged"
+		"precommit": "ng lint"
 	},
 	"lint-staged": {
-		"*.ts": [
-			"ng lint",
-			"git commit"
-		]
+		"../src/app/*.ts": "ng lint",
+		"../src/app/**/*.ts": "ng lint"
 	},
 	"private": true,
 	"dependencies": {
