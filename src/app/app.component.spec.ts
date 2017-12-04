@@ -20,8 +20,9 @@ import { Car } from './models/car';
 import { Location } from './models/location';
 import { BatteryStatus } from './models/batterystatus';
 import * as moment from 'moment';
+import puppeteer from 'puppeteer';
 describe( 'AppComponent', () => {
-    const { screenshot } = require( 'karma-nightmare' );
+    // const { screenshot } = require( 'karma-nightmare' );
     beforeEach( async(() => {
         TestBed.configureTestingModule( {
             declarations: [
@@ -60,22 +61,24 @@ describe( 'AppComponent', () => {
         const fixture = TestBed.createComponent( AppComponent );
         fixture.detectChanges();
         const title = <HTMLElement>fixture.debugElement.query( By.css( 'mat-toolbar' ) ).nativeElement;
-        const color = window.getComputedStyle( title ).getPropertyValue( "background-color" );
-        /*
+        const color = window.getComputedStyle( title ).getPropertyValue( 'background-color' );
+        /**
+         * this is for demonstration when color is changed to accent
         expect(color).toBe('rgb(255, 193, 7)');
          */
         expect( color ).toBe( 'rgb(63, 81, 181)' );
         fixture.whenRenderingDone().then(() => {
             fixture.detectChanges();
             setTimeout(() => {
-                screenshot( './testresults/screenshots/toolbar.png' ).then( done() );
+                // screenshot( './testresults/screenshots/toolbar.png' ).then( done() );
             }, 1000 );
+            done();
         } );
     } );
     it( `should have two cars for selection`, done => {
         const fixture = TestBed.createComponent( AppComponent );
         const app = fixture.debugElement.componentInstance;
-        let carService = fixture.debugElement.injector.get( CarService );
+        const carService = fixture.debugElement.injector.get( CarService );
 
         carService.fetchCars().subscribe( res => {
             app.cars = res[0];
@@ -83,8 +86,9 @@ describe( 'AppComponent', () => {
             fixture.whenRenderingDone().then(() => {
                 fixture.detectChanges();
                 setTimeout(() => {
-                    screenshot( './testresults/screenshots/cars.png' ).then( done() );
+                    // screenshot( './testresults/screenshots/cars.png' ).then( done() );
                 }, 1000 );
+                done();
             } );
         } );
     } );

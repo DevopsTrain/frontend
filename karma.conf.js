@@ -7,13 +7,14 @@ module.exports = function(config) {
 		frameworks : [ 'jasmine', '@angular/cli' ],
 		plugins : [
 			require('karma-jasmine'),
-			require('karma-nightmare'),
+			require('karma-chrome-launcher'),
 			require('karma-jasmine-html-reporter'),
 			require('karma-coverage-istanbul-reporter'),
 			require('karma-junit-reporter'),
 			require('@angular/cli/plugins/karma'),
 			require('@angular/material/icon'),
-			require('karma-scss-preprocessor')
+			require('karma-scss-preprocessor'),
+			require('puppeteer')
 		],
 		client : {
 			clearContext : false // leave Jasmine Spec Runner output visible in browser
@@ -54,7 +55,7 @@ module.exports = function(config) {
 		colors : true,
 		logLevel : config.LOG_INFO,
 		autoWatch : true,
-		browsers : [ 'Nightmare' ],
-		singleRun : true
+		browsers : [ 'ChromeHeadless' ],
+		singleRun : false
 	});
 };
