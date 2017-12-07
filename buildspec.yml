@@ -13,9 +13,6 @@ phases:
         commands:
             - echo Build started on `date`
             - npm run build    
-    post_build:
-    	commands:
-			- cd $CODEBUILD_SRC_DIR/build; zip -r ../package.zip *
 artifacts:
     files:
         - '**/*'
