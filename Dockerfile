@@ -1,7 +1,7 @@
 ### STAGE 1: Build ###
 
 # We label our stage as 'builder'
-FROM node:8-alpine as builder
+FROM aws/codebuild/docker:1.12.1 as builder
 
 COPY package.json package-lock.json ./
 
