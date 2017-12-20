@@ -12,7 +12,7 @@ export class CarService {
   constructor(private http: Http, private coreService: CoreService) {
     this.cars = [];
   }
-  baseUrl: string = '../../assets/json/cars.json';
+  baseUrl: string = 'assets/json/cars.json';
   data = [];
   cars: Car[];
 
