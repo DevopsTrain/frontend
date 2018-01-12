@@ -6,16 +6,18 @@ import { Marker } from './models/marker';
 import { Location } from './models/location';
 import { CarService } from './services/car/car.service';
 import { GeolocationService } from './services/geolocation/geolocation.service';
+import { AggregationService } from './services/aggregation/aggregation.service';
 import { BatteryService } from './services/battery/battery.service';
 import { MapsAPILoader } from '@agm/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
+import * as moment from 'moment';
 
 @Component( {
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    providers: [CarService, GeolocationService, BatteryService]
+    providers: [CarService, GeolocationService, BatteryService, AggregationService]
 } )
 export class AppComponent implements OnInit {
     title = 'DevOps - Showcase';
@@ -31,7 +33,8 @@ export class AppComponent implements OnInit {
     location: Location = new Location( { latitude: this.lat, longitude: this.lng } );
     latlngBounds;
 
-    constructor( private carService: CarService, private geolocationService: GeolocationService, private batteryService: BatteryService,
+    constructor( private carService: CarService, private aggregationService: AggregationService,
+        private geolocationService: GeolocationService, private batteryService: BatteryService,
         private mapsAPILoader: MapsAPILoader ) { }
 
     // Called when adding or removing a car
@@ -68,29 +71,36 @@ export class AppComponent implements OnInit {
         const vin = selectedCar.vin;
 
         // First fetch the location of the car
-        this.geolocationService.fetchGeolocationByVin( vin ).subscribe( res => {
+        this.aggregationService.fetchDataByVin( vin ).subscribe( res => {
             // selectedCar.location = res[0].filter(data => data.vin === vin)[0];
-            selectedCar.location = new Location( {
-                latitude: res[0].latitude, longitude: res[0].longitude, vin: res[0].vin,
-                timestamp: res[0].timestampUtc
-            } );
+
+            if ( res[0].geoPosition === null ) {
+                selectedCar.location = new Location( {
+                    latitude: 48, longitude: 12, vin: vin,
+                    timestamp: moment().unix()
+                } );
+            } else {
+                selectedCar.location = new Location( {
+                    latitude: res[0].geoPosition.latitude, longitude: res[0].geoPosition.longitude,
+                    vin: res[0].vin, timestamp: res[0].geoPosition.timestamp
+                } );
+            }
 
             // Then get battery-status of the car
-            this.batteryService.fetchBatteryStatusByVin( vin ).subscribe( resp => {
-                // selectedCar.batteryStatus = resp[0].filter(data => data.vin === vin)[0];
-                selectedCar.batteryStatus = new BatteryStatus( {
-                    status: resp[0].chargedPercentage, vin: resp[0].vin17,
-                    lastCheck: resp[0].lastCheck
-                } );
-
-                // Add to selected cars and update the center of the map
-                this.selectedCars.push( selectedCar );
-
-                if ( recalculate ) {
-                    this.calculateCenter();
-                    this.showDirections = false;
-                }
+            //this.batteryService.fetchBatteryStatusByVin( vin ).subscribe( resp => {
+            // selectedCar.batteryStatus = resp[0].filter(data => data.vin === vin)[0];
+            selectedCar.batteryStatus = new BatteryStatus( {
+                status: res[0].batteryStatus.chargedPercentage, vin: res[0].vin
             } );
+
+            // Add to selected cars and update the center of the map
+            this.selectedCars.push( selectedCar );
+
+            if ( recalculate ) {
+                this.calculateCenter();
+                this.showDirections = false;
+            }
+            //} );
         } );
     }
 
