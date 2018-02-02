@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
     selectedCars: Car[] = [];
     location: Location = new Location( { latitude: this.lat, longitude: this.lng } );
     latlngBounds;
+  
 
     constructor( private carService: CarService, private aggregationService: AggregationService,
         private geolocationService: GeolocationService, private batteryService: BatteryService,
