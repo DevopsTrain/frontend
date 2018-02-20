@@ -1,41 +1,54 @@
 <mat-toolbar color="primary" class="box-shadow" id="box">
-<mat-toolbar-row> <mat-icon class="example-icon">directions_car</mat-icon>
-<span>{{title}}</span> <span class="example-spacer"></span>
-<button (click)="sidenav.toggle()" mat-icon-button>
-	<mat-icon>menu</mat-icon>
-</button>
-</mat-toolbar-row> </mat-toolbar>
+    <mat-toolbar-row>
+        <mat-icon class="example-icon">directions_car</mat-icon>
+        <span>{{title}}</span> <span class="example-spacer"></span>
+        <button (click)="sidenav.toggle()" mat-icon-button>
+            <mat-icon>menu</mat-icon>
+        </button>
+    </mat-toolbar-row>
+</mat-toolbar>
 
-<mat-sidenav-container> <mat-sidenav #sidenav
-	mode="over" position='end'> <!-- sidenav content --> <mat-selection-list
-	#selList>
-<h2 mat-subheader>My Cars</h2>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav
+                 mode="over" position='end'> <!-- sidenav content -->
+        <mat-selection-list
+                #selList>
+            <h2 mat-subheader>My Cars</h2>
 
-<mat-divider></mat-divider> <mat-list-option (click)="getCarData(car)"
-	*ngFor="let car of cars">
-<h4 mat-line>{{car.name}}</h4>
-</mat-list-option> </mat-selection-list> </mat-sidenav>
+            <mat-divider></mat-divider>
+            <mat-list-option (click)="getCarData(car)"
+                             *ngFor="let car of cars">
+                <h4 mat-line>{{car.name}}</h4>
+            </mat-list-option>
+        </mat-selection-list>
+    </mat-sidenav>
 
-<div>
-	<div
-		[ngClass]="[showDirections ? 'loading-indicator': 'loading-indicator-hidden']">
-		<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-	</div>
-	<agm-map [fitBounds]="latlngBounds" [maxZoom]="18" [zoom]="zoom"
-		[latitude]="lat" [longitude]="lng"> <agm-marker
-		[label]="label" [latitude]="location.latitude"
-		[longitude]="location.longitude"></agm-marker> <agm-marker
-		*ngFor="let car of selectedCars" [label]="car.name"
-		[latitude]="car.location.latitude"
-		[longitude]="car.location.longitude"> <agm-info-window>
-	<h3>{{car.name}}</h3>
-	<h5>Battery-Status</h5>
-	<p
-		[ngClass]="{'batteryOk': car.batteryStatus.status>=70, 'batteryWarning': car.batteryStatus.status<70 && car.batteryStatus.status>20,'batteryCritical': car.batteryStatus.status<=20}">Battery:
-		{{car.batteryStatus.status | battery}}</p>
-	<h5>Geolocation</h5>
-	<p>Latitude: {{car.location.latitude}}</p>
-	<p>Longitude: {{car.location.longitude}}</p>
-	</agm-info-window> </agm-marker> </agm-map>
-</div>
+    <div>
+        <div
+                [ngClass]="[showDirections ? 'loading-indicator': 'loading-indicator-hidden']">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+        <agm-map [fitBounds]="latlngBounds" [maxZoom]="18" [zoom]="zoom"
+                 [latitude]="lat" [longitude]="lng">
+            <agm-marker [iconUrl]="'/assets/icons/person_marker.png'"
+                        [latitude]="location.latitude"
+                        [longitude]="location.longitude"></agm-marker>
+            <agm-marker
+                        *ngFor="let car of selectedCars"
+                        [latitude]="car.location.latitude"
+                        [longitude]="car.location.longitude">
+                <agm-info-window>
+                    <h3>{{car.name}}</h3>
+                    <h5>Battery-Status</h5>
+                    <p
+                            [ngClass]="{'batteryOk': car.batteryStatus.status>=70, 'batteryWarning': car.batteryStatus.status<70 && car.batteryStatus.status>20,'batteryCritical': car.batteryStatus.status<=20}">
+                        Battery:
+                        {{car.batteryStatus.status | battery}}</p>
+                    <h5>Geolocation</h5>
+                    <p>Latitude: {{car.location.latitude}}</p>
+                    <p>Longitude: {{car.location.longitude}}</p>
+                </agm-info-window>
+            </agm-marker>
+        </agm-map>
+    </div>
 </mat-sidenav-container>
