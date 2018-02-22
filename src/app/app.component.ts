@@ -1,24 +1,24 @@
-import { BatteryStatus } from './models/batterystatus';
-import { Component, OnInit } from '@angular/core';
-import { AgmCoreModule } from '@agm/core';
-import { Car } from './models/car';
-import { Marker } from './models/marker';
-import { Location } from './models/location';
-import { CarService } from './services/car/car.service';
-import { GeolocationService } from './services/geolocation/geolocation.service';
-import { AggregationService } from './services/aggregation/aggregation.service';
-import { BatteryService } from './services/battery/battery.service';
-import { MapsAPILoader } from '@agm/core';
-import { Observable } from 'rxjs/Observable';
+import {BatteryStatus} from './models/batterystatus';
+import {Component, OnInit} from '@angular/core';
+import {AgmCoreModule} from '@agm/core';
+import {Car} from './models/car';
+import {Marker} from './models/marker';
+import {Location} from './models/location';
+import {CarService} from './services/car/car.service';
+import {GeolocationService} from './services/geolocation/geolocation.service';
+import {AggregationService} from './services/aggregation/aggregation.service';
+import {BatteryService} from './services/battery/battery.service';
+import {MapsAPILoader} from '@agm/core';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
 import * as moment from 'moment';
 
-@Component( {
+@Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
     providers: [CarService, GeolocationService, BatteryService, AggregationService]
-} )
+})
 export class AppComponent implements OnInit {
     title = 'DevOps - Showcase';
     lat: number = 48.187498;
@@ -26,98 +26,99 @@ export class AppComponent implements OnInit {
     zoom: number = 15;
     label: string = 'Me';
     showDirections: boolean = false;
-    origin = { lat: 48.187498, lng: 11.601819 };
-    destination = { lat: 48.193936, lng: 11.571388 };
+    origin = {lat: 48.187498, lng: 11.601819};
+    destination = {lat: 48.193936, lng: 11.571388};
     cars: Car[] = [];
     selectedCars: Car[] = [];
-    location: Location = new Location( { latitude: this.lat, longitude: this.lng } );
+    location: Location = new Location({latitude: this.lat, longitude: this.lng});
     latlngBounds;
-  
 
-    constructor( private carService: CarService, private aggregationService: AggregationService,
-        private geolocationService: GeolocationService, private batteryService: BatteryService,
-        private mapsAPILoader: MapsAPILoader ) { }
+
+    constructor(private carService: CarService, private aggregationService: AggregationService,
+                private geolocationService: GeolocationService, private batteryService: BatteryService,
+                private mapsAPILoader: MapsAPILoader) {
+    }
 
     // Called when adding or removing a car
-    getCarData( selectedCar: Car ) {
-        if ( !this.selectedCars.includes( selectedCar ) ) {
+    getCarData(selectedCar: Car) {
+        if (!this.selectedCars.includes(selectedCar)) {
             this.showDirections = true;
-            this.calculateCarData( selectedCar, true );
+            this.calculateCarData(selectedCar, true);
         } else {
-            const index = this.selectedCars.indexOf( selectedCar );
-            this.selectedCars.splice( index, 1 );
+            const index = this.selectedCars.indexOf(selectedCar);
+            this.selectedCars.splice(index, 1);
             this.calculateCenter();
         }
     }
 
     // Is executed by the interval check
     checkCarData() {
-        for ( const car of this.selectedCars ) {
-            this.calculateCarData( car, true );
+        for (const car of this.selectedCars) {
+            this.calculateCarData(car, true);
         }
     }
 
     // Not in use
-    calcRoute( vin: string ) {
+    calcRoute(vin: string) {
         this.origin.lat = this.location.latitude;
         this.origin.lng = this.location.longitude;
 
-        const car = this.selectedCars.filter( data => data.vin === vin )[0];
+        const car = this.selectedCars.filter(data => data.vin === vin)[0];
         this.destination.lat = car.location.latitude;
         this.destination.lng = car.location.longitude;
     }
 
     // Calculates the location and battery-status of the car and updates the map
-    calculateCarData( selectedCar: Car, recalculate: boolean ) {
+    calculateCarData(selectedCar: Car, recalculate: boolean) {
         const vin = selectedCar.vin;
 
         // First fetch the location of the car
-        this.aggregationService.fetchDataByVin( vin ).subscribe( res => {
+        this.aggregationService.fetchDataByVin(vin).subscribe(res => {
             // selectedCar.location = res[0].filter(data => data.vin === vin)[0];
 
-            if ( res[0].geoPosition === null ) {
-                selectedCar.location = new Location( {
+            if (res[0].geoPosition === null) {
+                selectedCar.location = new Location({
                     latitude: 48, longitude: 12, vin: vin,
                     timestamp: moment().unix()
-                } );
+                });
             } else {
-                selectedCar.location = new Location( {
+                selectedCar.location = new Location({
                     latitude: res[0].geoPosition.latitude, longitude: res[0].geoPosition.longitude,
                     vin: res[0].vin, timestamp: res[0].geoPosition.timestamp
-                } );
+                });
             }
 
             // Then get battery-status of the car
-            //this.batteryService.fetchBatteryStatusByVin( vin ).subscribe( resp => {
+            // this.batteryService.fetchBatteryStatusByVin( vin ).subscribe( resp => {
             // selectedCar.batteryStatus = resp[0].filter(data => data.vin === vin)[0];
-            selectedCar.batteryStatus = new BatteryStatus( {
+            selectedCar.batteryStatus = new BatteryStatus({
                 status: res[0].batteryStatus.chargedPercentage, vin: res[0].vin
-            } );
+            });
 
             // Add to selected cars and update the center of the map
-            this.selectedCars.push( selectedCar );
+            this.selectedCars.push(selectedCar);
 
-            if ( recalculate ) {
+            if (recalculate) {
                 this.calculateCenter();
                 this.showDirections = false;
             }
-            //} );
-        } );
+            // } );
+        });
     }
 
     // Recalculates the center of the map if a car was added or removed
     calculateCenter() {
         this.mapsAPILoader.load().then(() => {
             this.latlngBounds = new window['google'].maps.LatLngBounds();
-            this.latlngBounds.extend( new window['google'].maps.LatLng( this.location.latitude, this.location.longitude ) );
-            this.selectedCars.forEach(( car ) => {
-                this.latlngBounds.extend( new window['google'].maps.LatLng( car.location.latitude, car.location.longitude ) );
-            } );
-        } );
+            this.latlngBounds.extend(new window['google'].maps.LatLng(this.location.latitude, this.location.longitude));
+            this.selectedCars.forEach((car) => {
+                this.latlngBounds.extend(new window['google'].maps.LatLng(car.location.latitude, car.location.longitude));
+            });
+        });
     }
 
     // Sets the position of the user
-    setPosition( position ) {
+    setPosition(position) {
         const coords = position.coords;
         this.location.latitude = coords.latitude;
         this.location.longitude = coords.longitude;
@@ -126,22 +127,22 @@ export class AppComponent implements OnInit {
 
     // Init
     ngOnInit() {
-        if ( navigator.geolocation ) {
-            navigator.geolocation.getCurrentPosition( this.setPosition.bind( this ) );
-            navigator.geolocation.watchPosition( this.setPosition.bind( this ) );
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this.setPosition.bind(this));
+            navigator.geolocation.watchPosition(this.setPosition.bind(this));
         }
 
         // Get cars
-        this.carService.fetchCars().subscribe( res => {
-            for ( const c of res[0] ) {
-                const car: Car = new Car( { name: c.name, vin: c.vin } );
-                this.cars.push( car );
+        this.carService.fetchCars().subscribe(res => {
+            for (const c of res[0]) {
+                const car: Car = new Car({name: c.name, vin: c.vin});
+                this.cars.push(car);
             }
-        } );
+        });
 
         // Check every 2 minutes the data (location, battery) for every selected car
-        Observable.interval( 2000 * 60 ).subscribe( x => {
+        Observable.interval(2000 * 60).subscribe(x => {
             this.checkCarData();
-        } );
+        });
     }
 }

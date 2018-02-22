@@ -9,12 +9,12 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class AggregationService {
-    
     url: string = 'http://aggregation.devopstrain.spc3i9uigt.stackpoint.io/api/vehiclestatus/';
 
-  constructor(private http: Http, private coreService: CoreService) { }
-  
-  fetchDataByVin(vin: string): Observable<any> {
-      return this.coreService.fetchEntity(this.url + vin);
+    constructor(private http: Http, private coreService: CoreService) {
+    }
+
+    fetchDataByVin(vin: string): Observable<any> {
+        return this.coreService.fetchEntity(this.url + vin);
     }
 }

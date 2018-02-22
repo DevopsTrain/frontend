@@ -33,7 +33,7 @@
             <agm-marker [iconUrl]="'/assets/icons/person_marker.png'"
                         [latitude]="location.latitude"
                         [longitude]="location.longitude"></agm-marker>
-            <agm-marker
+            <agm-marker [iconUrl]="'/assets/icons/parked_car.png'"
                         *ngFor="let car of selectedCars"
                         [latitude]="car.location.latitude"
                         [longitude]="car.location.longitude">
