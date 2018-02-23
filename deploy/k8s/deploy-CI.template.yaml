@@ -5,7 +5,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: frontend
-    track: stable
+    track: canary
   name: frontend
   namespace: devopstrain
 spec:
@@ -13,14 +13,14 @@ spec:
   selector:
     matchLabels:
       app: frontend
-      track: stable
+      track: canary
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
         app: frontend
-        track: stable
+        track: canary
     spec:
       containers:
       - image: devopstrain/frontend:${BUILD_NUMBER}
@@ -61,7 +61,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: frontend
-    track: stable
+    track: canary
   name: frontend
   namespace: devopstrain
 spec:
@@ -71,7 +71,7 @@ spec:
     targetPort: 8080
   selector:
     app: frontend
-    track: stable
+    track: canary
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
