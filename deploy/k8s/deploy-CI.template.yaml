@@ -80,7 +80,7 @@ metadata:
   namespace: devopstrain
 spec:
   rules:
-  - host:
+  - host: frontend.devopstrain.*
     http:
       paths:
       - path:
