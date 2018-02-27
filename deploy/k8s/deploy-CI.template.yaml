@@ -80,7 +80,14 @@ metadata:
   namespace: devopstrain
 spec:
   rules:
-  - host: frontend.devopstrain.*
+  - host: frontend.devopstrain.spc3i9uigt.stackpoint.io
+    http:
+      paths:
+      - path:
+        backend:
+          serviceName: frontend
+          servicePort: 80
+  - host: frontend.devopstrain.spcoj18ldz.stackpoint.io
     http:
       paths:
       - path:
