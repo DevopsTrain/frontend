@@ -30,7 +30,7 @@
         </div>
         <agm-map [fitBounds]="latlngBounds" [maxZoom]="18" [zoom]="zoom"
                  [latitude]="lat" [longitude]="lng">
-            <agm-marker [iconUrl]="'/assets/icons/person_marker.png'"
+            <agm-marker
                         [latitude]="location.latitude"
                         [longitude]="location.longitude"></agm-marker>
             <agm-marker [iconUrl]="'/assets/icons/parked-car.png'"
