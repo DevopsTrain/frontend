@@ -35,7 +35,7 @@ import { TimestampPipe } from './pipes/timestamp.pipe';
     MatButtonModule,
     MatProgressSpinnerModule,
     AgmCoreModule.forRoot({
-        apiKey: 'AIzaSyDPjCZdmVICOA7vhwLHc6PePIY8fdCNpcI'
+        apiKey: 'AIzaSyAz_PQQXrDY5o3AtvP3tp2-j-Wd2siAgko'
     })
   ],
   providers: [CoreService],
